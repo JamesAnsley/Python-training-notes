@@ -1,10 +1,10 @@
-#This game generates a random number from user inputs and asks the user to guess it
+# This game generates a random number from user inputs and asks the user to guess it
 
 import sys
 import random
 import time
 
-#check name from cmd
+# check name from cmd
 while True:
     try:
         user_name = sys.argv[1]
@@ -17,6 +17,7 @@ while True:
         print(f'Well {user_name} I hope you are ready...')
         time.sleep(2)
         break
+
 
 def difficulty_menu():
     while True:
@@ -49,10 +50,12 @@ def difficulty_menu():
         else:
             print("select one of the options")
 
+
 def penalty_wait():
     for i in range(10):
-        print(f"{10-i} seconds to wait")
+        print(f"{10 - i} seconds to wait")
         time.sleep(1)
+
 
 guess_number = 0
 
@@ -71,52 +74,57 @@ while True:
             print(f'Each wrong guess increases the wait between by half a second')
         break
 
-
-
-
-#this sets the difficulty for the game
-time.sleep(random.random()*3)
+# this sets the difficulty for the game
+time.sleep(random.random() * 3)
 print(f"I am picking a number between {low} and {high} inclusive...")
 time.sleep(2)
 print(f'Okay {user_name}. I have the number. Get to guessing.')
-time.sleep(random.random()*5)
+time.sleep(random.random() * 5)
 guess_number = 0
-sleep=0
-
-
+sleep = 0
 
 answer = random.randint(low, high)
 print(answer)
 
 while True:
-    guess = int(input(f"Make your guess {user_name}: "))
-    guess_number += 1
-    time.sleep(.5)
-    if guess == answer:
-        if guess_number == 1:
-            print(f'I guess you are psychic. Or lucky')
-            time.sleep(.5)
-            print("congratualations of getting it on the first guess")
-            time.sleep(.5)
+    try:
+        guess = int(input(f"Make your guess {user_name}: "))
+        guess_number += 1
+        time.sleep(.5)
+        if guess == answer:
+            if guess_number == 1:
+                print(f'I guess you are psychic. Or lucky')
+                time.sleep(.5)
+                print("congratualations of getting it on the first guess")
+                time.sleep(.5)
+            else:
+                print(f'CONGRATULATIONS!!! {user_name} it only took you {guess_number} attempts')
+            print(f'Until next time {user_name}')
+            break
+        elif guess < low:
+            print(
+                f"{user_name} I said the answer is between {low} and {high} inclusive.)"
+                f" Since you are rude you can wait.")
+            guess_number += 1
+            penalty_wait()
+            if difficulty.lower() == 'brutal':
+                time.sleep(guess_number / 2)
+        elif guess > high:
+            print(
+                f"{user_name} I said the answer is between {low} and {high} inclusive. Since you are rude you can wait.")
+            penalty_wait()
+            guess_number += 1
+            if difficulty.lower() == 'brutal':
+                time.sleep(guess_number / 2)
         else:
-            print(f'CONGRATULATIONS!!! {user_name} it only took you {guess_number} attempts')
-        print(f'Until next time {user_name}')
-        break
-    elif guess < low:
-        print(f"{user_name} I said the answer is between {low} and {high} inclusive. Since you are rude you can wait.")
+            print("Hahahaha")
+            time.sleep(.25)
+            print("No")
+            if difficulty.lower() == 'brutal':
+                time.sleep(guess_number / 2)
+    except ValueError:
+        print("You must enter a number")
+        print("Penalty time")
         guess_number += 1
         penalty_wait()
-        if difficulty.lower() == 'brutal':
-            time.sleep(guess_number/2)
-    elif guess > high:
-        print(f"{user_name} I said the answer is between {low} and {high} inclusive. Since you are rude you can wait.")
-        penalty_wait()
-        guess_number += 1
-        if difficulty.lower() == 'brutal':
-            time.sleep(guess_number/2)
-    else:
-        print("Hahahaha")
-        time.sleep(.25)
-        print("No")
-        if difficulty.lower() == 'brutal':
-            time.sleep(guess_number/2)
+        continue
